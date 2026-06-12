@@ -5,9 +5,12 @@ class Button:
         self.pin = Pin(pin_um,Pin.IN,Pin.PULL_UP)
         self.old_state = 1
     def is_pressed(self):
+        if current_time - last_state_time > 50:
+            
         new_state = self.pin.value()
         pressed = (new_state == 0 and self.old_state == 1)
         self.old_state = new_state
+
         return pressed
 class Led:
     def __init__(self,pin_num):
@@ -23,21 +26,61 @@ class Led:
            self.pin.value(not self.pin.value())
            self.last_toggle_time = now
     def toggle(self):
-         self.pin.value(not self.pin.value())     
-button = Button(4)
+         self.pin.value(not self.pin.value())
+class Motor:
+    def __init__(self):
+        self.state = 0
+        self.speed = 0
+    def forward(self):
+        self.state = "forward"
+        self.speed = 50
+    def backward(self):
+        self.state = "backward"
+        self.speed = 0
+    def stop(self):
+        self.state = "stop"
+        self.speed = 0
+class RobotController:#"说实话我不知道这个类里放什么东西，就比如led里放了关于他的定义函数，但是我感觉robobcontroller里没有函数可以用，而且感觉就一个robotcontroller不像led一样有blue.led或者black.led之类的，感觉它调用一下led和button的类一样"
+     def __init__(self):
+         self.button = Button
+         self.led = Led
+         self.motor = Motor
+button_a = Button(4)
+button_b = Button(3)
+button_c = Button(5)
 led = Led(2)
-mode = 0
+motor = Motor(1)#"也像button那样给一个引脚触发之类的"
+mode_a = 0
+mode_b = 0
+mode_c = 0
+robotcontroller = RobotController()
 while True:
-     if button.is_pressed():
-         mode += 1
-         if  mode > 2:
-             mode = 0
-     if  mode == 0:
-         led.off()
-     elif  mode == 1:
-         led.on()
-     elif  mode == 2:
-         led.blink()
+    if robotcontroller.button_a.is_pressed():
+        mode_a += 1
+        if  mode_a > 1:
+             mode_a = 0
+    if  mode_a == 0:
+         if  robotcontroller.button_b.is_pressed():
+            mode_b += 1
+            if  mode_b > 2:
+                mode_b = 0
+            if mode_b == 0:    
+                robotcontroller.led.off()
+            elif  mode_b == 1:
+                robotcontroller.led.on()
+            elif  mode_b == 2:
+                robotcontroller.led.blink()  
+    elif  mode_a == 1:
+            if  robotcontroller.button_c.is_pressed():
+                mode_c += 1
+                if  mode_c > 2:
+                    mode_c = 0
+            if mode_c == 0:    
+                robotcontroller.motor.forward()
+            elif  mode_c == 1:
+                robotcontroller.motor.backward()
+            elif  mode_c == 2:
+                robotcontroller.motor.stop()
              
         
 def state_0():
