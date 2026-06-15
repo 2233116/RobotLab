@@ -4,13 +4,14 @@ class Button:
     def __init__(self,pin_um):
         self.pin = Pin(pin_um,Pin.IN,Pin.PULL_UP)
         self.old_state = 1
+        self.last_pressed_time = 0
     def is_pressed(self):
-        if current_time - last_state_time > 50:
-            
+        current_time = ticks_ms()
         new_state = self.pin.value()
-        pressed = (new_state == 0 and self.old_state == 1)
+        pressed = (new_state == 0 and self.old_state == 1 and current_time - self.last_pressed_time > 50)
         self.old_state = new_state
-
+        if pressed :
+           self.last_pressed_time = current_time
         return pressed
 class Led:
     def __init__(self,pin_num):
@@ -28,7 +29,7 @@ class Led:
     def toggle(self):
          self.pin.value(not self.pin.value())
 class Motor:
-    def __init__(self):
+    def __init__(self,pin_num):
         self.state = 0
         self.speed = 0
     def forward(self):
@@ -40,93 +41,93 @@ class Motor:
     def stop(self):
         self.state = "stop"
         self.speed = 0
-class RobotController:#"说实话我不知道这个类里放什么东西，就比如led里放了关于他的定义函数，但是我感觉robobcontroller里没有函数可以用，而且感觉就一个robotcontroller不像led一样有blue.led或者black.led之类的，感觉它调用一下led和button的类一样"
+class RobotController:
      def __init__(self):
-         self.button = Button
-         self.led = Led
-         self.motor = Motor
-button_a = Button(4)
-button_b = Button(3)
-button_c = Button(5)
-led = Led(2)
-motor = Motor(1)#"也像button那样给一个引脚触发之类的"
-mode_a = 0
-mode_b = 0
-mode_c = 0
-robotcontroller = RobotController()
+        self.self.button_a  = Button(1)     
+        self.self.button_b = Button(2)
+        self.self.button_c = Button(3)
+        self.enable = 0
+        self.self.led_mode = 0
+        self.self.motor_mode = 0
+        self.self.led = Led(4)
+        self.self.motor = Motor(5)
+     def updata(self):
+        if self.button_a.is_pressed():
+            self.enable += 1
+            if  self.enable > 1:
+             self.enable = 0
+        if  self.enable == 0:
+             if  self.button_b.is_pressed():
+                self.led_mode += 1
+                if  self.led_mode > 2:
+                    self.led_mode = 0
+             if self.led_mode == 0:    
+                self.led.off()
+             elif  self.led_mode == 1:
+                self.led.on()
+             elif  self.led_mode == 2:
+                self.led.blink()  
+        elif  self.enable == 1:
+            if  self.button_c.is_pressed():
+                self.motor_mode += 1
+                if  self.motor_mode > 2:
+                    self.motor_mode = 0
+            if self.motor_mode == 0:    
+                self.motor.forward()
+            elif  self.motor_mode == 1:
+                self.motor.backward()
+            elif  self.motor_mode == 2:
+                self.motor.stop()
+contorll = RobotController()                
 while True:
-    if robotcontroller.button_a.is_pressed():
-        mode_a += 1
-        if  mode_a > 1:
-             mode_a = 0
-    if  mode_a == 0:
-         if  robotcontroller.button_b.is_pressed():
-            mode_b += 1
-            if  mode_b > 2:
-                mode_b = 0
-            if mode_b == 0:    
-                robotcontroller.led.off()
-            elif  mode_b == 1:
-                robotcontroller.led.on()
-            elif  mode_b == 2:
-                robotcontroller.led.blink()  
-    elif  mode_a == 1:
-            if  robotcontroller.button_c.is_pressed():
-                mode_c += 1
-                if  mode_c > 2:
-                    mode_c = 0
-            if mode_c == 0:    
-                robotcontroller.motor.forward()
-            elif  mode_c == 1:
-                robotcontroller.motor.backward()
-            elif  mode_c == 2:
-                robotcontroller.motor.stop()
+    contorll.updata()
+    
              
         
 def state_0():
-    led.value(0)
+    self.led.value(0)
 def state_1():
-    led.value(1)
-def state_2(now,last_time,led):
+    self.led.value(1)
+def state_2(now,last_time,self.led):
     if now - last_time >= 800:
-            led.value(not led.value())
+            self.led.value(not self.led.value())
             last_time = now
     return  last_time
-def state_3(now,last_time,led):
+def state_3(now,last_time,self.led):
      if now - last_time >= 200:
-            led.value(not led.value())
+            self.led.value(not self.led.value())
             last_time = now
      return  last_time      
 # ===== 初始化 =====
-led = Pin(2, Pin.OUT)
-button_a = Button(4)
-button_b = Pin(5, Pin.IN, Pin.PULL_UP)
+self.led = Pin(2, Pin.OUT)
+self.button_a = Button(4)
+self.button_b = Pin(5, Pin.IN, Pin.PULL_UP)
 # ===== 状态变量 =====
-led_state = 0
+self.led_state = 0
 old_a = 1
 old_b = 1
 last_time = 0
 # ===== 主循环 =====
 while True:
     now = ticks_ms()
-    new_a = button_a.value()
-    new_b = button_b.value()
+    new_a = self.button_a.value()
+    new_b = self.button_b.value()
     # 输入处理
     if new_b == 0 and old_b == 1:
-        led_state = 0
+        self.led_state = 0
 
-    if button_a.is_pressed():
-        led_state += 1
-        if led_state > 3:
-            led_state = 0
+    if self.button_a.is_pressed():
+        self.led_state += 1
+        if self.led_state > 3:
+            self.led_state = 0
     # 状态执行
-    if led_state == 0:
+    if self.led_state == 0:
         state_0()
-    elif led_state == 1:
+    elif self.led_state == 1:
         state_1()
-    elif led_state == 2:
-        last_time = state_2(now,last_time,led)
-    elif led_state == 3:
-        last_time = state_3(now,last_time,led)
+    elif self.led_state == 2:
+        last_time = state_2(now,last_time,self.led)
+    elif self.led_state == 3:
+        last_time = state_3(now,last_time,self.led)
     old_a = new_a
     old_b = new_b
