@@ -15,20 +15,23 @@ class Button:
             pressed = True
         self.old_state = new
         return pressed
+class Buzzer:
     def __init__(self,pin_num):
         self.buzzer = Pin(pin_num,Pin.OUT)
     def on(self):
         self.buzzer.value(1)
     def off(self):
         self.buzzer.value(0)   
-    def beep(self,duration=200): 
+    def beep(self):
+        self.off()
+        sleep_ms(1000)
         self.on()
-        sleep_ms(duration)
+        sleep_ms(1000)
         self.off()   
     
 class Controller:
     def __init__(self):
-        self.button_a = Button(1)
+        self.button_a = Button(5)
         self.mode_a = 0
         self.buzzer = Buzzer(2)
     def update(self):
@@ -46,3 +49,5 @@ class Controller:
 controll = Controller()                
 while True:
     controll.update()
+    sleep_ms(20)
+
