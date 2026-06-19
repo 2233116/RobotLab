@@ -3,6 +3,7 @@ from machine import time_pulse_us
 from time import ticks_ms
 from time import sleep_us
 from time import sleep_ms
+
 class Button:
     def __init__(self,pin_num):
         self.pin = Pin(pin_num,Pin.IN,Pin.PULL_UP)
@@ -14,13 +15,14 @@ class Button:
         pressed = False
         if new == 0 and self.last_state == 1 and now - self.last_pressed_time > 50:
             self.last_pressed_time = now
-            return not pressed
+            self.last_state = new
+            return True
         self.last_state = new
         return pressed
 class Sonar:
     def __init__(self,trig_pin,echo_pin):
         self.trig = Pin(trig_pin,Pin.OUT)
-        self.echo = Pin(echo_pin,Pin.IN)
+        self.echo = Pin(echo_pin,Pin.IN) 
     def read(self):
         self.trig.value(0)
         sleep_us(2)
@@ -44,15 +46,33 @@ class Buzzer:
         sleep_ms(1000)
         self.on()
         sleep_ms(1000)
-        self.off()   
+        self.off()
+class  Controller:
+    def __init__(self,sonar,buzzer,button):
+        self.sonar = sonar
+        self.buzzer = buzzer
+        self.button = button
+        self.mode = 0
+        self.threshold = 20
+    def update(self):
+        if self.button.is_pressed():
+            self.mode += 1
+        if self.mode > 1:
+            self.mode = 0
+        if self.mode == 0:
+            self.buzzer.off()
+        elif self.mode == 1:
+            distance = self.sonar.read()
+            if distance is None:
+                return
+            if distance > self.threshold :
+                self.buzzer.off()
+            else:
+                self.buzzer.on()
 sonar = Sonar(4,5)
 buzzer = Buzzer(21)
+button = Button(18)                 
+controller = Controller(sonar,buzzer,button)
 while True:
-    distance = sonar.read()
-    if distance is None:
-        continue
-    if distance > 20:
-        buzzer.off()
-    else:
-        buzzer.on()
+   controller.update()
     
