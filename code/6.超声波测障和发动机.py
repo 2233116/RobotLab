@@ -4,13 +4,13 @@ BACKWARD = 2
 STOP = 3
 class Motor:
     def __init__(self,pin_num_1,pin_num_2,pin_num_3) :
-        self.AIN1 = Pin(pin_num_1,Pin.OUT)#"这几个self.pin... 写的对不对"
+        self.AIN1 = Pin(pin_num_1,Pin.OUT)
         self.AIN2 = Pin(pin_num_2,Pin.OUT)
         self.PWMA = PWM(pin_num_3,Pin.OUT) 
-        self.speed = 
+        self.speed = 0
         self.direction = 0
         self.is_running = 0
-    def forward(self,speed):#"话说他不应该就是self.seed吗，怎么显示的是重复了"
+    def forward(self,speed):
         self.AIN1(1)
         self.AIN2(0)
         self.PWMA = 
