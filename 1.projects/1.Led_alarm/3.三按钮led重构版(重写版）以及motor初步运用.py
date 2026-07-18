@@ -9,8 +9,8 @@ class Button:
         new = self.pin.value()
         now = ticks_ms()
         if new == 0 and self.old_state == 1 and now - self.last_pressed_time > 50: 
-            self.last_pressed_time = now#"我怎么感觉现在这个防抖有点问题，他现在怎么感觉这次按完距离下次按的时间很长导致他不会触发"
-            return True#"如果把return放进if的缩进会怎么样？又有点忘了"
+            self.last_pressed_time = now
+            return True
         self.old_state = new
         return False
 class Led:
