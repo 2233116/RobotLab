@@ -33,4 +33,4 @@ class Motor:
         speed_1 = abs(speed)
         self.speed = speed
         self.PWMA.duty_u16(int(speed_1/100*65535))
-    
+     

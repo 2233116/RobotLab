@@ -1,6 +1,6 @@
 from motor import Motor
 import time
-motor = Motor(1,2,3)
+motor = Motor(2,4,5)
 def test_speed(speed,test_name):
     motor.set_speed(speed)
     time.sleep(2)
