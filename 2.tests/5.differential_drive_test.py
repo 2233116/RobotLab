@@ -18,8 +18,8 @@ assert differential_drive.right_speed == 30
 print("成功右转")
 #DifferentialDrive + Motor 完整数据流测试
 from motor import Motor
-left_motor = Motor(1,2,3)
-right_motor = Motor(4,5,6)
+left_motor = Motor(16,4,2)
+right_motor = Motor(13,14,26)
 controller.set_target_speed(50)
 controller.update_output()
 differential_drive.set_turn(20)

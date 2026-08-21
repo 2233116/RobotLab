@@ -1,6 +1,6 @@
 from motor import Motor
 import time 
-motor = Motor(16,4,2)
+motor = Motor(13,14,26)
 motor.set_speed(50)
 time.sleep(5)
 print("正转测试结束")

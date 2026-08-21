@@ -8,3 +8,4 @@ class Differentialdrive:
     def calculate_wheel_speeds(self,output):
         self.left_speed = output + self.turn
         self.right_speed = output - self.turn
+        
