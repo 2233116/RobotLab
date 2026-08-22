@@ -27,5 +27,3 @@ differential_drive.calculate_wheel_speeds(controller.output)
 left_motor.set_speed(differential_drive.left_speed)
 right_motor.set_speed(differential_drive.right_speed)
 
-
-
