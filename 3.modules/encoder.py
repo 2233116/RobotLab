@@ -4,28 +4,27 @@ class Encoder:
         self.pin_B = Pin(pin_num_B,Pin.IN,Pin.PULL_UP)
         self.counts_per_rev = counts_per_rev
         self.gear_ratio = gear_ratio
-        self.previous_A = None
         self.start_time = None
         self.pulse_count = 0
         self.current_speed = 0
+        self.pin_A.irp(
+                     trigger = Pin.IRQ_RISING|Pin.IRQ_FALLING,
+                     handler = self.on_pulse
+                )
 
     def on_pulse(self):
         current_A = self.pin_A.value()
         current_B = self.pin_B.value()
-        if self.previous_A is None:
-            self.previous_A = current_A
-        else:
-            if  current_A == 1 :
+        if  current_A == 1 :
                 if   current_B == 0 :
                     self.pulse_count += 1
                 else:
                     self.pulse_count -= 1
-            if  current_A == 0:
+        if  current_A == 0:
                 if   current_B == 1 :
                     self.pulse_count += 1
                 else:
                     self.pulse_count -= 1
-        self.previous_A = current_A
 
     def update(self):
         self.current_time = time.time()
