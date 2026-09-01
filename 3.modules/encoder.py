@@ -1,3 +1,4 @@
+from machine import Pin
 class Encoder:
     def __init__(self,pin_num_A,pin_num_B,counts_per_rev,gear_ratio):
         self.pin_A = Pin(pin_num_A,Pin.IN,Pin.PULL_UP)
@@ -7,13 +8,13 @@ class Encoder:
         self.start_time = None
         self.pulse_count = 0
         self.current_speed = 0
-        self.pin_A.irp(
+        self.pin_A.irq(
                      trigger = Pin.IRQ_RISING|Pin.IRQ_FALLING,
                      handler = self.on_pulse
                 )
 
-    def on_pulse(self):
-        current_A = self.pin_A.value()
+    def on_pulse(self,pin_A_out):
+        current_A = pin_A_out.value()
         current_B = self.pin_B.value()
         if  current_A == 1 :
                 if   current_B == 0 :
@@ -44,3 +45,4 @@ class Encoder:
                 return
     def get_current_speed(self):
         return self.current_speed
+
