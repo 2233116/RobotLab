@@ -1,4 +1,7 @@
 from machine import Pin
+from time import ticks_ms
+import time
+import machine
 class Encoder:
     def __init__(self,pin_num_A,pin_num_B,counts_per_rev,gear_ratio):
         self.pin_A = Pin(pin_num_A,Pin.IN,Pin.PULL_UP)
