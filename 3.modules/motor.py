@@ -1,4 +1,5 @@
 from machine import Pin,PWM
+from time import sleep
 FORWARD  =  1
 BACKWARD = 2
 STOP = 3
@@ -8,6 +9,7 @@ class Motor:
         self.pwm2 = PWM(Pin(pin_num_2), freq = 1000) 
         self.speed = 0
         self.is_running = 0
+        sleep(0.001)
     def stop(self):
         self.set_speed(0)
     def set_speed(self,speed):
