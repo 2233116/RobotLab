@@ -17,7 +17,7 @@ while True:
         pwm = 0
     print("pwm: \n",pwm)
     print("error: \n",error)
-    print("current_speed: \n", encoder.speed)
+    print("current_speed: \n", encoder.current_speed)
     sleep(0.1)
 
 
