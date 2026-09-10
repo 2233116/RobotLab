@@ -21,20 +21,20 @@ class Encoder:
         current_B = self.pin_B.value()
         if  current_A == 1 :
                 if   current_B == 0 :
-                    self.pulse_count += 1
-                else:
                     self.pulse_count -= 1
+                else:
+                    self.pulse_count += 1
         if  current_A == 0:
                 if   current_B == 1 :
-                    self.pulse_count += 1
-                else:
                     self.pulse_count -= 1
+                else:
+                    self.pulse_count += 1
 
     def update(self):
         self.current_time = time.time()
         if self.start_time is None:
             self.start_time = self.current_time
-            return
+            return False
         else:     
             self.elapsed_time = self.current_time - self.start_time
             if self.elapsed_time >= 0.2 :
@@ -44,8 +44,9 @@ class Encoder:
                 machine.enable_irq(irq_state)
                 self.current_speed = local_count/self.counts_per_rev/self.elapsed_time*60/self.gear_ratio
                 self.start_time = self.current_time
+                return True
             else:
-                return
+                return False
     def get_current_speed(self):
         return self.current_speed
 
