@@ -2,7 +2,7 @@ from motor import Motor
 from encoder import Encoder
 from time import sleep
 motor = Motor(33,27)
-encoder  = Encoder(16,5,22,56)
+encoder  = Encoder(4,5,22,56)
 kp = 0.1
 pwm = 20
 target_speed = 50

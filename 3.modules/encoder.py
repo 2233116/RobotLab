@@ -1,5 +1,5 @@
 from machine import Pin
-from time import ticks_ms
+from time import ticks_ms,ticks_diff
 import time
 import machine
 class Encoder:
@@ -31,12 +31,12 @@ class Encoder:
                     self.pulse_count += 1
 
     def update(self):
-        self.current_time = time.time()
+        self.current_time = ticks_ms()
         if self.start_time is None:
             self.start_time = self.current_time
             return False
         else:     
-            self.elapsed_time = self.current_time - self.start_time
+            self.elapsed_time = ticks_diff(self.current_time , self.start_time)/1000
             if self.elapsed_time >= 0.2 :
                 irq_state = machine.disable_irq()
                 local_count =  self.pulse_count
@@ -49,4 +49,5 @@ class Encoder:
                 return False
     def get_current_speed(self):
         return self.current_speed
+
 
