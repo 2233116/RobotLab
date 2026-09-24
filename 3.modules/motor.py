@@ -17,16 +17,14 @@ class Motor:
             speed = 100
         elif speed < -100 :
             speed = -100
-        if speed == self.speed :
-            return
+        #if speed == self.speed :
+            #return
         speed_1 = abs(speed)
         if speed > 0 :
-            self.pwm1.duty_u16(0)
             self.pwm2.duty_u16(0)
             self.pwm1.duty_u16(int(speed_1/100*65535))
             self.is_running = True
         elif speed < 0 :
-            self.pwm1.duty_u16(0)
             self.pwm2.duty_u16(0)
             self.pwm2.duty_u16(int(speed_1/100*65535)) 
             self.is_running = True
