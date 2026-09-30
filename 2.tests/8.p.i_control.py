@@ -3,11 +3,11 @@ from encoder import Encoder
 from time import sleep
 motor = Motor(33,27)
 encoder  = Encoder(4,5,22,56)
-kp = 0.1
-ki = 0.01
+kp = 0.25
+ki = 0.03
 integral_error = 0
-integral_max = 500
-integral_min = -500
+integral_max = 1000
+integral_min = -1000
 target_speed = 100
 previous_speed = None
 stable_count = 0
@@ -30,9 +30,9 @@ while True:
                     P = kp*error
                     I = ki*integral_error
                     print("stable_count: \n", stable_count)
-                    print("integral_error: \n:", integral_error)
+                    print("integral_error: \n", integral_error)
                     print("P: \n",P)
-                    print("I: \n:",I)
+                    print("I: \n",I)
                     pwm = base_pwm + P + I
                     if pwm > 100:
                         pwm = 100
@@ -47,6 +47,7 @@ while True:
         print("error: \n",error)
         print("current_speed: \n", encoder.current_speed)
     sleep(0.2)
+
 
 
 
