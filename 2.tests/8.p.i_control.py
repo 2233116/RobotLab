@@ -5,6 +5,7 @@ motor = Motor(33,27)
 encoder  = Encoder(4,5,22,56)
 kp = 0.25
 ki = 0.03
+kd = 0
 integral_error = 0
 integral_max = 1000
 integral_min = -1000
@@ -29,11 +30,13 @@ while True:
                         integral_error = integral_min
                     P = kp*error
                     I = ki*integral_error
+                    D = kd*(previous_speed - encoder.current_speed)/encoder.elapsed_time
                     print("stable_count: \n", stable_count)
                     print("integral_error: \n", integral_error)
                     print("P: \n",P)
                     print("I: \n",I)
-                    pwm = base_pwm + P + I
+                    print("D: \n",D)
+                    pwm = base_pwm + P + I + D
                     if pwm > 100:
                         pwm = 100
                     elif pwm < 0:
