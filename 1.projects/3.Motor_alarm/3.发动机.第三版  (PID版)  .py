@@ -5,7 +5,7 @@ motor = Motor(33,27)
 encoder  = Encoder(4,5,22,56)
 pid = PID(0.25,0.3,0.05)
 control_count = 0
-target_speed = 100
+target_speed = 200
 time_count = 0
 motor.set_speed(target_speed/2)
 while True:
@@ -20,4 +20,5 @@ while True:
             motor.set_speed(pwm)
             print("pwm: \n",pwm)
             print("dt: \n",dt)
+            print("integral_error: \n",pid.integral_error)
         print("current_speed: \n", encoder.current_speed)
