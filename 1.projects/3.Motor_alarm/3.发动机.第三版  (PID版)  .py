@@ -5,7 +5,7 @@ motor = Motor(33,27)
 encoder  = Encoder(4,5,22,56)
 pid = PID(0.25,0.3,0.05)
 control_count = 0
-target_speed = 200
+target_speed = 100
 time_count = 0
 motor.set_speed(target_speed/2)
 while True:
