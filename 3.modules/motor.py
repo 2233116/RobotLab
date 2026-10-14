@@ -25,7 +25,7 @@ class Motor:
             self.pwm1.duty_u16(int(speed_1/100*65535))
             self.is_running = True
         elif speed < 0 :
-            self.pwm2.duty_u16(0)
+            self.pwm1.duty_u16(0)
             self.pwm2.duty_u16(int(speed_1/100*65535)) 
             self.is_running = True
         elif speed == 0 :

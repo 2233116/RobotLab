@@ -1,8 +1,10 @@
 from motor import Motor
 from encoder import Encoder
 from pid import PID
-motor = Motor(33,27)
-encoder  = Encoder(4,5,22,56)
+left_motor = Motor(33,27)
+right_motor = Motor(12,13)
+left_encoder  = Encoder(4,5,22,56)
+right_encoder  = Encoder(22,21,22,56)
 pid = PID(0.25,0.3,0.05)
 control_count = 0
 target_speed = 100
