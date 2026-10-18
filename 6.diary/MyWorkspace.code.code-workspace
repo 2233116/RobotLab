@@ -6,5 +6,8 @@
         {
             "path": "../../C-learning"
         }
-    ]
+    ],
+    "settings": {
+        "stm32cube-ide-clangd.path": "cube"
+    }
 }
