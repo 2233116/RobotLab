@@ -1,9 +1,10 @@
 class MotorController:
-    def __init__(self,motor,encoder,pid,target_speed):
+    def __init__(self,motor,encoder,pid,target_speed,name):
         self.motor = motor
         self.encoder = encoder
         self.pid = pid
         self.target_speed = target_speed
+        self.name = name
         self.control_count = 0
         self.dt = 0
         self.pwm = 0
@@ -16,5 +17,8 @@ class MotorController:
                 self.control_count = 0
                 self.dt = 0
                 self.motor.set_speed(self.pwm)
-                print("current_speed: \n", self.encoder.current_speed)
+                print(f"{self.name}.current_speed: \n", self.encoder.current_speed)
+                print(f"{self.name}.target_speed: \n", self.target_speed)
+                print(f"{self.name}.pwm: \n", self.pwm)
+
 

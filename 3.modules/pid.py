@@ -9,7 +9,6 @@ class PID:
         self.pwm = 0
         self.previous_speed = None
     def update(self,current_speed,dt,target_speed):
-                    base_pwm = target_speed/2
                     error = target_speed - current_speed
                     if self.pwm == +100 and error > 0:
                         self.integral_error = self.integral_error
@@ -31,13 +30,14 @@ class PID:
                         D = 0
                     else:
                         D = self.kd*(self.previous_speed - current_speed)/dt
-                    self.pwm = base_pwm + P + I + D
+                    self.pwm =  P + I + D
                     if self.pwm > 100:
                         self.pwm = 100
                     elif self.pwm < -100:
                         self.pwm = -100
                     self.previous_speed = current_speed
                     return self.pwm
+
 
 
 
