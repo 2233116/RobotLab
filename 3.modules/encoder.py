@@ -1,6 +1,5 @@
 from machine import Pin
 from time import ticks_ms,ticks_diff
-import time
 import machine
 class Encoder:
     def __init__(self,pin_num_A,pin_num_B,counts_per_rev,gear_ratio):
@@ -49,5 +48,11 @@ class Encoder:
                 return False
     def get_current_speed(self):
         return self.current_speed
-
+    
+    def reset_timing(self):
+        self.start_time = None
+        irq_state = machine.disable_irq()
+        self.pulse_count = 0
+        machine.enable_irq(irq_state)
+        self.current_speed = 0
 

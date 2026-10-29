@@ -14,12 +14,15 @@ class MotorController:
             if self.was_stopped == 0:
                 self.motor.set_speed(self.target_speed)
                 self.pid.reset()
+                self.pwm = 0
                 self.control_count = 0
                 self.dt = 0
                 self.was_stopped += 1
                 print(self.name,"stop")
         else:
-            self.was_stopped = 0
+            if self.was_stopped == 1:
+                self.encoder.reset_timing()
+                self.was_stopped = 0
             if self.encoder.update():
                 self.control_count += 1
                 self.dt = self.dt + self.encoder.elapsed_time
@@ -31,6 +34,14 @@ class MotorController:
                     print(f"{self.name}.current_speed: \n", self.encoder.current_speed)
                     print(f"{self.name}.target_speed: \n", self.target_speed)
                     print(f"{self.name}.pwm: \n", self.pwm)
+    def stop(self):
+        self.target_speed = 0
+        self.motor.set_speed(self.target_speed)
+        self.pid.reset()
+        self.pwm = 0
+        self.control_count = 0
+        self.dt = 0
+        self.was_stopped = 1
 
 
 

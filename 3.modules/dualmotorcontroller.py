@@ -8,5 +8,7 @@ class DualMotorController:
     def set_targets(self,left_speed,right_speed):
         self.left.target_speed = left_speed
         self.right.target_speed = right_speed
-
+    def stop(self):
+        self.left.stop()
+        self.right.stop()
 

@@ -16,22 +16,25 @@ dual = DualMotorController(left_motorcontroller,right_motorcontroller)
 dual.set_targets(60,90)
 stage = 0
 stage_start = ticks_ms()
-while True:
-    time = ticks_ms()
-    elapsed = ticks_diff(time,stage_start)
-    dual.update()
-    if stage == 0 and elapsed >= 5000:
-        dual.set_targets(90,60)
-        stage = 1
-        stage_start = time
-    elif stage == 1 and elapsed >= 5000:
-        dual.set_targets(0,0)
-        stage = 2
-        stage_start = time
-    elif stage == 2 and elapsed >= 5000:
-        dual.set_targets(60,60)
-        stage = 3
-        stage_start = time
+try:
+    while True:
+        time = ticks_ms()
+        elapsed = ticks_diff(time,stage_start)
+        dual.update()
+        if stage == 0 and elapsed >= 5000:
+            dual.set_targets(90,60)
+            stage = 1
+            stage_start = time
+        elif stage == 1 and elapsed >= 5000:
+            dual.set_targets(0,0)
+            stage = 2
+            stage_start = time
+        elif stage == 2 and elapsed >= 5000:
+            dual.set_targets(60,60)
+            stage = 3
+            stage_start = time
+finally:
+    dual.stop()
    
     
      
