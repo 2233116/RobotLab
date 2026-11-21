@@ -2,5 +2,6 @@
     "python.envFile": "${workspaceFolder}/.env",
     "python.analysis.extraPaths": [
         "${workspaceFolder}/3.modules"
-    ]
+    ],
+    "python.terminal.useEnvFile": true
 }
